@@ -16,6 +16,12 @@
             bindings = <&none>, <&bt BT_CLR>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
+        del_shift: del_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp DEL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     keymap {
@@ -23,7 +29,7 @@
 
         default_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7   |   8   |  9   |   0   | BSPC  |
+// |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7   |   8   |  9   |   0   | DEL   |
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U   |   I   |  O   |   P   |   -   |
 // | SHIFT |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J   |   K   |  L   |   ;   |   '   |
 // |  CTRL |  Z  |  X  |  C   |  V   |  B   |   "["  |  |  "]"  |  N   |  M   |   ,   |  .   |   /   | SHIFT |
@@ -31,7 +37,7 @@
 
             display-name = "Base";
             bindings = <
-&kp ESC    &kp N1  &kp N2  &kp N3    &kp N4    &kp N5                         &kp N6  &kp N7    &kp N8     &kp N9   &kp N0    &kp BACKSPACE
+&kp ESC    &kp N1  &kp N2  &kp N3    &kp N4    &kp N5                         &kp N6  &kp N7    &kp N8     &kp N9   &kp N0    &del_shift
 &kp TAB    &kp Q   &kp W   &kp E     &kp R     &kp T                          &kp Y   &kp U     &kp I      &kp O    &kp P     &kp MINUS
 &kp LSHFT  &kp A   &kp S   &kp D     &kp F     &kp G                          &kp H   &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
 &kp LCTRL  &kp Z   &kp X   &kp C     &kp V     &kp B   &kp LBKT     &kp RBKT  &kp N   &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
@@ -43,19 +49,19 @@
 
         lower_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |       | BT1 | BT2 |  BT3 |  BT4 |  BT5 |                   | BRI- | BRI+  |       | VOL- | VOL+  | BT_CLR |
-// |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12   |
-// |   `   |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |   ~    |
-// |       |     |     |      |      |      |        |  |       |      |  _    |  +    |  {   |   }   |  "|"   |
-//                     |      |      |      |        |  |       |      |       |       |
+// |  `    |  !  |  @  |  #   |  $   |  %   |                   |  =   |  +   |   \   |  |   |   =   |        |
+// |       |     |     |      |      |      |                   | HOME |      |   UP  |      | PG_UP |   \    |
+// |       |     |     |      |      |      |                   | END  | LEFT |  DOWN | RIGHT| PG_DN |        |
+// |       |     |     |      |      |      |        |  |       |      |      |       |      |       |        |
+//                     |      |      |      |        |  |       |      |      |       |
 
             display-name = "Lower";
             bindings = <
-&trans     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                    &kp C_BRI_DN  &kp C_BRI_UP  &trans           &kp C_VOL_DN  &kp C_VOL_UP  &bt_clr_shift
-&kp F1     &kp F2        &kp F3        &kp F4        &kp F5        &kp F6                          &kp F7     &kp F8     &kp F9           &kp F10   &kp F11   &kp F12
-&kp GRAVE  &kp EXCL      &kp AT        &kp HASH      &kp DOLLAR    &kp PRCNT                       &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &kp TILDE
-&trans     &trans        &trans        &trans        &trans        &trans        &trans    &trans  &trans     &kp MINUS  &kp KP_PLUS      &kp LBRC  &kp RBRC  &kp PIPE
-                                       &trans        &mo 3         &trans        &trans    &trans  &trans     &trans     &trans
+&kp GRAVE  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT                 &kp EQUAL  &kp PLUS  &kp BSLH  &kp PIPE  &kp EQUAL &trans
+&trans  &trans    &trans  &trans    &trans    &trans                    &kp HOME   &trans    &kp UP    &trans    &kp PG_UP &kp BSLH
+&trans  &trans    &trans  &trans    &trans    &trans                    &kp END    &kp LEFT  &kp DOWN  &kp RIGHT &kp PG_DN &trans
+&trans  &trans    &trans  &trans    &trans    &trans  &trans    &trans  &trans     &trans    &trans    &trans    &trans    &trans
+                        &trans  &mo 3   &trans  &trans    &trans  &trans     &trans    &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -63,37 +69,37 @@
 
         raise_layer {
 // ------------------------------------------------------------------------------------------------------------
-// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   8   |  9   |   0   |       |
-// |   F1  |  F2 |  F3 |  F4  |  F5  |  F6  |                   |      |   <-  |   v   |  ^   |  ->   |       |
-// |   F7  |  F8 |  F9 |  F10 |  F11 |  F12 |        |  |       |  +   |   -   |   =   |  [   |   ]   |   \   |
-//                     |      |      |      |        |  |       |      |       |       |
+// |  F1   |  F2  |  F3  |  F4  |  F5  |  F6  |                   |      |      |       |      |       |  DEL   |
+// |  F7   |  F8  |  F9  |  F10 |  F11 |  F12 |                   |  ^   |  &   |   *   |  (   |   )   |        |
+// |       |      |      |      |      |      |                   |  {   |  }   |   [   |  ]   |   ~   |   /    |
+// |       |      |      |      |      |      |        |  |       |      |      |       |      |       |        |
+//                       |      |      |      |        |  |       |      |      |       |
 
             display-name = "Raise";
             bindings = <
-&trans     &trans  &trans  &trans   &trans   &trans                     &trans       &trans     &trans     &trans    &trans     &trans
-&kp GRAVE  &kp N1  &kp N2  &kp N3   &kp N4   &kp N5                     &kp N6       &kp N7     &kp N8     &kp N9    &kp N0     &trans
-&kp F1     &kp F2  &kp F3  &kp F4   &kp F5   &kp F6                     &trans       &kp LEFT   &kp DOWN   &kp UP    &kp RIGHT  &trans
-&kp F7     &kp F8  &kp F9  &kp F10  &kp F11  &kp F12  &trans    &trans  &kp KP_PLUS  &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT   &kp BSLH
-                           &trans   &trans   &trans   &trans    &trans  &trans       &trans     &trans
+&kp F1  &kp F2  &kp F3  &kp F4   &kp F5   &kp F6                    &trans    &trans   &trans          &trans   &trans    &kp DEL
+&kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12                   &kp CARET &kp AMPS &kp KP_MULTIPLY &kp LPAR &kp RPAR  &trans
+&trans  &trans  &trans  &trans   &trans   &trans                    &kp LBRC  &kp RBRC &kp LBKT        &kp RBKT &kp TILDE &kp FSLH
+&trans  &trans  &trans  &trans   &trans   &trans  &trans    &trans  &trans    &trans   &trans          &trans   &trans    &trans
+                        &trans   &trans   &trans  &trans    &trans  &trans    &trans   &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
-        sizeup_layer {
-            display-name = "SizeUp";
+        appcontrol_layer {
+            display-name = "AppControl";
 // ------------------------------------------------------------------------------------------------------------
-// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// |       |     |     |      |      |      |                   |      |  TL   |  Top  |  TR   |       |       |
-// |       |     |     |      |      |      |                   | Prev |  Left | Center| Right| Next  |       |
-// |       |     |     |      |      |      |        |  |       |      |  BL   | Bottom|  BR   |       |       |
-// |                   |      |      |      |        |  |  Max  |      |       |       |
+// |       | BT1 | BT2 |  BT3 |  BT4 |  BT5 |                   | BRI- | BRI+ |       | VOL- | VOL+  | BT_CLR |
+// |       |     |     |      |      |      |                   |      |  TL  |  Top  |  TR   |      |        |
+// |       |     |     |      |      |      |                   | Prev |  Left| Center| Right| Next  |        |
+// |       |     |     |      |      |      |        |  |       |      |  BL  | Bottom|  BR   |      |        |
+// |                   |      |      |      |        |  |  Max  |      |      |       |
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                      &trans       &trans              &trans               &trans                &trans                &trans
-&trans  &trans  &trans  &trans  &trans  &trans                      &trans       &kp LC(LA(LG(I)))   &kp LC(LA(LG(UP)))   &kp LC(LA(LG(O)))     &trans                &trans
-&trans  &trans  &trans  &trans  &trans  &trans                      &kp LC(LA(LG(LBKT))) &kp LC(LA(LG(LEFT))) &kp LC(LA(LG(C)))    &kp LC(LA(LG(RIGHT))) &kp LC(LA(LG(RBKT)))  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans       &kp LC(LA(LG(K)))   &kp LC(LA(LG(DOWN))) &kp LC(LA(LG(L)))     &trans                &trans
+&trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                      &kp C_BRI_DN  &kp C_BRI_UP  &trans               &kp C_VOL_DN          &kp C_VOL_UP          &bt_clr_shift
+&trans  &trans        &trans        &trans        &trans        &trans                            &trans        &kp LC(LA(LG(I)))   &kp LC(LA(LG(UP)))   &kp LC(LA(LG(O)))     &trans                &trans
+&trans  &trans        &trans        &trans        &trans        &trans                            &kp LC(LA(LG(LBKT))) &kp LC(LA(LG(LEFT))) &kp LC(LA(LG(C)))    &kp LC(LA(LG(RIGHT))) &kp LC(LA(LG(RBKT)))  &trans
+&trans  &trans        &trans        &trans        &trans        &trans  &trans      &trans        &trans        &kp LC(LA(LG(K)))   &kp LC(LA(LG(DOWN))) &kp LC(LA(LG(L)))     &trans                &trans
                         &trans  &trans  &trans  &trans      &kp LC(LA(LG(M))) &trans &trans &trans
             >;
         };
